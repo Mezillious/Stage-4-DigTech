@@ -1,0 +1,1291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Micro:bit & MakeCode Arcade - Full Curriculum (33 Lessons)</title>
+<style>
+  :root {
+    --primary: #4F46E5;
+    --primary-dark: #3730A3;
+    --accent: #06B6D4;
+    --bg-dark: #0F172A;
+    --card-bg: #1E293B;
+    --text-main: #F8FAFC;
+    --text-muted: #94A3B8;
+    --border: #334155;
+    --glossary-bg: rgba(6, 182, 212, 0.08);
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  header {
+    background-color: var(--card-bg);
+    padding: 16px 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .title-group h1 {
+    font-size: 1.3rem;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .title-group h2 {
+    font-size: 1.05rem;
+    color: var(--text-muted);
+    font-weight: normal;
+  }
+
+  .slide-counter {
+    font-weight: bold;
+    font-size: 1.2rem;
+    background: var(--border);
+    padding: 6px 16px;
+    border-radius: 12px;
+  }
+
+  main {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px 24px;
+    position: relative;
+  }
+
+  /* UPDATED CONTAINER DIMENSIONS FOR WIDER CONTENT AREA */
+  .slide-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    width: 95%;
+    max-width: 1400px; /* Widened from 1000px */
+    height: 100%;
+    max-height: 90vh;  /* Increased height constraint to prevent unnecessary scrolling */
+    padding: 32px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow-y: auto;
+  }
+
+  .slide-card.active {
+    display: flex;
+  }
+
+  .slide-header {
+    border-bottom: 2px solid var(--border);
+    padding-bottom: 12px;
+    margin-bottom: 16px;
+  }
+
+  .slide-header h3 {
+    font-size: 1.75rem;
+    color: var(--text-main);
+    margin-bottom: 6px;
+  }
+
+  .outcomes-tag {
+    display: inline-block;
+    background: rgba(79, 70, 229, 0.2);
+    color: #818CF8;
+    border: 1px solid var(--primary);
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 0.95rem;
+    font-weight: 600;
+  }
+
+  .slide-body {
+    flex: 1;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: var(--text-main);
+  }
+
+  .slide-body ul {
+    list-style-type: none;
+    margin-left: 0;
+  }
+
+  .slide-body li {
+    margin-bottom: 12px;
+    padding-left: 24px;
+    position: relative;
+  }
+
+  .slide-body li::before {
+    content: "•";
+    color: var(--accent);
+    font-weight: bold;
+    font-size: 1.5rem;
+    position: absolute;
+    left: 0;
+    top: -2px;
+  }
+
+  /* Glossary Box Component */
+  .glossary-box {
+    background: var(--glossary-bg);
+    border: 1px solid var(--accent);
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin-bottom: 18px;
+  }
+
+  .glossary-title {
+    font-weight: bold;
+    color: var(--accent);
+    text-transform: uppercase;
+    font-size: 0.95rem;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+  }
+
+  .glossary-items {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    font-size: 1.05rem;
+  }
+
+  .glossary-item {
+    background: rgba(15, 23, 42, 0.5);
+    padding: 10px 14px;
+    border-radius: 6px;
+    border-left: 3px solid var(--accent);
+  }
+
+  .glossary-item strong {
+    color: #A5F3FC;
+  }
+
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0;
+    font-size: 1.05rem;
+  }
+
+  .data-table th, .data-table td {
+    border: 1px solid var(--border);
+    padding: 10px 14px;
+    text-align: left;
+  }
+
+  .data-table th {
+    background-color: rgba(255, 255, 255, 0.08);
+    color: var(--accent);
+    font-size: 1.1rem;
+  }
+
+  .code-block {
+    background-color: #090D16;
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--accent);
+    padding: 12px 16px;
+    font-family: "Courier New", Courier, monospace;
+    font-size: 1rem;
+    border-radius: 4px;
+    color: #A5F3FC;
+    margin: 10px 0;
+    white-space: pre-wrap;
+  }
+
+  footer {
+    background-color: var(--card-bg);
+    padding: 18px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--border);
+  }
+
+  .nav-btn {
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .nav-btn:hover {
+    background-color: var(--primary-dark);
+  }
+
+  .nav-btn:disabled {
+    background-color: var(--border);
+    color: var(--text-muted);
+    cursor: not-allowed;
+  }
+
+  select {
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    border: 1px solid var(--border);
+    padding: 10px 16px;
+    border-radius: 6px;
+    font-size: 1rem;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="title-group">
+    <h1>Micro:bit & MakeCode Arcade</h1>
+    <h2>Digital Technologies Workbook Presentation</h2>
+  </div>
+  <div class="slide-counter" id="counter">Slide 1 of 33</div>
+</header>
+
+<main>
+
+  <!-- Slide 01 -->
+  <div class="slide-card active">
+    <div class="slide-header">
+      <span class="outcomes-tag">TE4-DIG-01 | TE4-DIG-02</span>
+      <h3>Worksheet 01: What are Digital Systems?</h3>
+    </div>
+    <div class="slide-body">
+      <div class="glossary-box">
+        <div class="glossary-title">Lesson 1 Glossary Terms</div>
+        <div class="glossary-items">
+          <div class="glossary-item"><strong>1. Hardware:</strong> The physical, tangible components of a computer system (e.g., keyboard, monitor, CPU).</div>
+          <div class="glossary-item"><strong>2. Software:</strong> Programs, applications, and operating systems that instruct computer hardware on how to perform tasks.</div>
+        </div>
+      </div>
+      <ul>
+        <li><strong>Concept Summary:</strong> A digital system combines hardware, software, and data to transform inputs into outputs.</li>
+        <li><strong>Classification Matrix:</strong>
+          <table class="data-table">
+            <tr><th>Component</th><th>Type</th><th>Primary Function</th></tr>
+            <tr><td>Micro:bit Processor</td><td>Hardware</td><td>Executes real-time code instructions</td></tr>
+            <tr><td>MakeCode Arcade</td><td>Software</td><td>Integrated Development Environment (IDE)</td></tr>
+            <tr><td>Light Sensor (LDR)</td><td>Hardware</td><td>Measures ambient illuminance</td></tr>
+            <tr><td>Operating System</td><td>Software</td><td>Manages hardware and software resources</td></tr>
+          </table>
+        </li>
+        <li><strong>Microbit Diagram:</strong> Input Device (Buttons) → Process (Microbit code) → Output Device (LED lights).</li>
+        <li><strong>Design Factors:</strong> Wearable health trackers prioritize low <strong>power consumption</strong> and high <strong>portability</strong>.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Slide 02 -->
+  <div class="slide-card">
+    <div class="slide-header">
+      <span class="outcomes-tag">TE4-DIG-01 | TE4-DIG-02</span>
+      <h3>Worksheet 02: Hardware vs Software & Microcontrollers</h3>
+    </div>
+    <div class="slide-body">
+      <div class="glossary-box">
+        <div class="glossary-title">Lesson 2 Glossary Terms</div>
+        <div class="glossary-items">
+          <div class="glossary-item"><strong>3. Digital Environment:</strong> The interconnected online and offline networks, systems, and platforms where digital interactions take place.</div>
+          <div class="glossary-item"><strong>4. Technological Literacy:</strong> The ability to responsibly use, manage, understand, and evaluate technology and digital tools.</div>
+        </div>
+      </div>
+      <ul>
+        <li><strong>Hardware Mapping:</strong>
+          <table class="data-table">
+            <tr><th>Component</th><th>Type</th><th>Function</th></tr>
+            <tr><td>5x5 LED Matrix</td><td>Output</td><td>Displays patterns, text, and numbers</td></tr>
+            <tr><td>Buttons A & B</td><td>Input</td><td>Provides tactile user event triggers</td></tr>
+            <tr><td>Accelerometer</td><td>Input</td><td>Measures motion, tilt, and acceleration</td></tr>
+            <tr><td>Nordic MCU</td><td>Process</td><td>Executes binary instructions</td></tr>
+            <tr><td>GPIO Pins</td><td>I/O</td><td>Breaks out pins for external circuits</td></tr>
+          </table>
+        </li>
+        <li><strong>Simulator Logic Task:</strong>
+          <div class="code-block">on button A pressed -> show icon [ Heart ]
+on button B pressed -> show icon [ Small Heart ]</div>
+        </li>
+        <li><strong>Analysis:</strong> Microcontrollers are single-purpose, low-power hardware systems ideal for simple dedicated tasks compared to general-purpose desktop PCs.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Slide 03 -->
+  <div class="slide-card">
+    <div class="slide-header">
+      <span class="outcomes-tag">TE4-DIG-02 | TE4-PPM-01</span>
+      <h3>Worksheet 03: Inputs, Processes, and Outputs (IPO)</h3>
+    </div>
+    <div class="slide-body">
+      <div class="glossary-box">
+        <div class="glossary-title">Lesson 3 Glossary Terms</div>
+        <div class="glossary-items">
+          <div class="glossary-item"><strong>5. Data Encryption:</strong> The process of encoding information so that only authorized parties can access and read it.</div>
+          <div class="glossary-item"><strong>6. Authentication:</strong> A security process that verifies the identity of a user or device before granting access (e.g., passwords, 2FA).</div>
+        </div>
+      </div>
+      <ul>
+        <li><strong>The IPO Model:</strong> Systems accept raw data (Input), transform data (Process), and produce functional results (Output).</li>
+        <li><strong>IPO Scenario Breakdown:</strong>
+          <table class="data-table">
+            <tr><th>Input</th><th>Process</th><th>Output</th></tr>
+            <tr><td>Press Button A</td><td>Add +1 to variable 'Score'</td><td>Display updated Score on LEDs</td></tr>
+            <tr><td>Light sensor &lt; 50</td><td>Evaluate threshold check</td><td>25 LEDs light up on screen</td></tr>
+            <tr><td>Shake Micro:bit</td><td>Generate random 1 to 6</td><td>Display random dice number</td></tr>
+          </table>
+        </li>
+        <li><strong>Automated Night-Light System Design:</strong>
+          <div class="code-block">INPUT: Light Level Sensor Reading
+PROCESS: Check IF (Light Level < Threshold Value)
+OUTPUT: Power ON 5x5 LED Matrix at maximum brightness</div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Slide 04 -->
+  <div class="slide-card">
+    <div class="slide-header">
+      <span class="outcomes-tag">TE4-SAF-01</span>
+      <h3>Worksheet 04: Safe Online Communication</h3>
+    </div>
+    <div class="slide-body">
+      <div class="glossary-box">
+        <div class="glossary-title">Lesson 4 Glossary Terms</div>
+        <div class="glossary-items">
+          <div class="glossary-item"><strong>7. Cybersecurity:</strong> The practice of protecting systems, networks, and programs from digital attacks and unauthorized access.</div>
+          <div class="glossary-item"><strong>8. Privacy Risk:</strong> Potential loss of control over personal data through data leaks, tracking, or unauthorized sharing.</div>
+        </div>
+      </div>
+      <ul>
+        <li><strong>Phishing Identification Red Flags:</strong>
+          <ul>
+            <li><strong>Red Flag 1:</strong> Suspicious domain address (e.g., <code>@security-bank-update-alert.net</code>).</li>
+            <li><strong>Red Flag 2:</strong> High-pressure threat/urgency tactics ("account deleted within 24 hours").</li>
+            <li><strong>Red Flag 3:</strong> Unverified, unencrypted short links (e.g., <code>http://bit.ly/login-now</code>).</li>
+          </ul>
+        </li>
+        <li><strong>Cyber Safety Infographic Blueprint:</strong>
+          <ul>
+            <li>Prominently feature passphrases (12+ mixed characters) over single words.</li>
+            <li>Highlight the necessity of Multi-Factor Authentication (MFA) across accounts.</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Slide 05 -->
+  <div class="slide-card">
+    <div class="slide-header">
+      <span class="outcomes-tag">TE4-SAF-01 | TE4-DIG-01</span>
+      <h3>Worksheet 05: Ethics & AI Ownership</h3>
+    </div>
+    <div class="slide-body">
+      <div class="glossary-box">
+        <div class="glossary-title">Lesson 5 Glossary Terms</div>
+        <div class="glossary-items">
+          <div class="glossary-item"><strong>9. Digital Footprint:</strong> The trail of data you create while using the internet, including visited websites, emails, and online posts.</div>
+          <div class="glossary-item"><strong>10. Safe Practice:</strong> Following protocols, procedures, and ethical standards to prevent harm to users, devices, or data.</div>
+        </div>
+      </div>
+      <ul>
+        <li><strong>Debate Matrix: AI Ownership & Copyright</strong>
+          <table class="data-table">
+            <tr><th>Arguments FOR AI Copyright</th><th>Arguments AGAINST AI Copyright</th></tr>
+            <tr><td>Engineering complex prompts requires human time, effort, and creative direction.</td><td>AI models are trained on human artistic works without consent or payment.</td></tr>
+            <tr><td>Users who refine technical parameters produce original unique outputs.</td><td>Algorithmic outputs lack true human authorship under traditional legal definitions.</td></tr>
+          </table>
+        </li>
+        <li><strong>Personal Reflection Focus:</strong> Balancing intellectual property protections for human artists against encouraging technological innovation in AI development.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Slide 06 -->
+  <div class="slide-card">
+    <div class="slide-header">
+      <span class="outcomes-tag">TE4-DIG-01 | TE4-PPM-01</span>
+      <h3>Worksheet 06: Data Collection and Storage</h3>
+    </div>
+    <div class="slide-body">
+      <div class="glossary-box">
+        <div class="glossary-title">Module 2: Lesson 6 Glossary Terms</div>
+        <div class="glossary-items">
+          <div class="glossary-item"><strong>11. Wired Network:</strong> A system that connects devices using physical cables (e.g., Ethernet) to transmit data.</div>
+          <div class="glossary-item"><strong>12. Wireless Network:</strong> A network that uses radio waves or infrared signals (e.g., Wi-Fi) to transmit data between devices.</div>
+        </div>
+      </div>
+      <ul>
+        <li><strong>Practical Data Logging Matrix:</strong>
+          <table class="data-table">
+            <tr><th>Loc #</th><th>Description</th><th>Temp (°C)</th><th>Light Level (0-255)</th></tr>
+            <tr><td>1</td><td>Inside Desk / Shadow</td><td>~20°C</td><td>Low (~30)</td></tr>
+            <tr><td>2</td><td>Near Window</td><td>~22°C</td><td>High (~210)</td></tr>
+            <tr><td>3</td><td>Hallway</td><td>~21°C</td><td>Medium (~100)</td></tr>
+            <tr><td>4</td><td>Outdoor Direct Sunlight</td><td>~25°C</td><td>Max (~255)</td></tr>
+          </table>
+        </li>
+        <li><strong>Data Visualization Trend:</strong> Ambient light levels increase dramatically near direct natural light, while indoor room temperatures stay relatively stable.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Slide 07 -->
+  <div class="slide-card">
+    <div class="slide-header">
+      <span class="outcomes-tag">TE4-DIG-01 | TE4-SAF-01</span>
+      <h3>Worksheet 07: Data Transmission & Networks</h3>
+    </div>
+    <div class="slide-body">
+      <div class="glossary-box">
+        <div class="glossary-title">Lesson 7 Glossary Terms</div>
+        <div class="glossary-items">
+          <div class="glossary-item"><strong>13. Mobile Network:</strong> A radio network distributed over land through cell sites, enabling mobile devices to communicate.</div>
+          <div class="glossary-item"><strong>14. Data Transmission:</strong> The transfer of data over a point-to-point or point-to-multipoint communication channel.</div>
+        </div>
+      </div>
+      <ul>
+        <li><strong>Network Types Matching:</strong>
+          <ul>
+            <li><strong>1. Wi-Fi</strong> → <strong>C:</strong> Local radio frequency wireless networking within a building.</li>
+            <li><strong>2. Bluetooth</strong> → <strong>A:</strong> Personal localized short-range radio connections.</li>
+            <li><strong>3. Fiber Optic</strong> → <strong>B:</strong> High-speed wired transmission using glass threads & light pulses.</li>
+            <li><strong>4. 5G Mobile</strong> → <strong>D:</strong> Long-range cellular data transmission across wide networks.</li>
+          </ul>
+        </li>
+        <li><strong>Packet Transmission Activity:</strong> Files are split into small <strong>packets</strong> with headers, sent independently across optimal network routes, and reassembled at the target destination.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Slide 08 -->
+  <div class="slide-card">
+    <div class="slide-header">
+      <span class="outcomes-tag">TE4-SAF-01</span>
+      <h3>Worksheet 08: Privacy and Cybersecurity</h3>
+    </div>
+    <div class="slide-body">
+      <div class="glossary-box">
+        <div class="glossary-title">Lesson 8 Glossary Terms</div>
+        <div class="glossary-items">
+          <div class="glossary-item"><strong>15. Data Collection:</strong> The systematic gathering of information from various sources to solve problems or make decisions.</div>
+          <div class="glossary-item"><strong>16. Data Storage:</strong> The recording and retention of digital information on hardware drives, servers, or cloud platforms.</div>
+        </div>
+      </div>
+      <ul>
+        <li><strong>Risk Assessment Matrix:</strong>
+          <table class="data-table">
+            <tr><th>Cyber Threat</th><th>Potential Impact</th><th>Prevention Strategy</th></tr>
+            <tr><td>Weak Passwords</td><td>Unauthorized access</td><td>Use Passphrases + MFA</td></tr>
+            <tr><td>Malware / Ransomware</td><td>Data loss or system lockout</td><td>Updated Antivirus & Patching</td></tr>
+            <tr><td>Unencrypted Wi-Fi</td><td>Packet sniffing/interception</td><td>Use Secure VPN networks</td></tr>
+          </table>
+        </li>
+        <li><strong>PSA Video Outline:</strong>
+          <ul>
+            <li><strong>Hook:</strong> "Is your personal account password easily crackable?"</li>
+            <li><strong>Warning:</strong> Automated tools can crack short passwords in seconds.</li>
+            <li><strong>Action:</strong> Enable Multi-Factor Authentication immediately.</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Slide 09 -->
+  <div class="slide-card">
+    <div class="slide-header">
+      <span class="outcomes-tag">TE4-SDP-01 | TE4-DIG-01</span>
+      <h3>Worksheet 09: Sustainability in Technology</h3>
+    </div>
+    <div class="slide-body">
+      <div class="glossary-box">
+        <div class="glossary-title">Lesson 9 Glossary Terms</div>
+        <div class="glossary-items">
+          <div class="glossary-item"><strong>17. Data Authenticity:</strong> The degree to which data can be proven to be genuine, reliable, and untampered with.</div>
+          <div class="glossary-item"><strong>18. Data Accuracy:</strong> The correctness and precision of data in relation to real-world facts or intended specifications.</div>
+        </div>
+      </div>
+      <ul>
+        <li><strong>E-Waste & Energy Reduction:</strong>
+          <ul>
+            <li>Design modular hardware components that allow single parts to be replaced/upgraded.</li>
+            <li>Use 100% recycled metals/plastics and incorporate deep low-power sleep modes.</li>
+          </ul>
+        </li>
+        <li><strong>Eco-Project Blueprint:</strong>
+          <div class="code-block">Project Title: Smart Eco-Irrigation System
+Sensors Used: Soil Moisture Pins + Light Sensor
+Resource Savings: Waters plants only when moisture drops below threshold, preventing water waste.</div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Slide 10 -->
+  <div class="slide-card">
+    <div class="slide-header">
+      <span class="outcomes-tag">TE4-DIG-01 | TE4-SDP-01</span>
+      <h3>Worksheet 10: Aboriginal Communication Technologies</h3>
+    </div>
+    <div class="slide-body">
+      <div class="glossary-box">
+        <div class="glossary-title">Lesson 10 Glossary Terms</div>
+        <div class="glossary-items">
+          <div class="glossary-item"><strong>19. Data Timeliness:</strong> The extent to which data is up-to-date and available when needed for decision-making.</div>
+          <div class="glossary-item"><strong>20. Aboriginal Communication Practices:</strong> Traditional methods of sharing information, stories, and culture, which inform modern communication design.</div>
+        </div>
+      </div>
+      <ul>
+        <li><strong>Traditional vs. Modern Encryption:</strong> Traditional message sticks encoded messages through visual markings verified by messengers. Modern encryption uses mathematical keys to encode data packets across networks.</li>
+        <li><strong>5x5 Binary Grid Pattern Example:</strong>
+          <div class="code-block">0  1  1  1  0
+1  0  0  0  1
+1  1  1  1  1
+1  0  0  0  1
+1  0  0  0  1</div>
+          <em>(1 = LED ON, 0 = LED OFF)</em>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Slide 11 -->
+  <div class="slide-card">
+    <div class="slide-header">
+      <span class="outcomes-tag">TE4-DIG-02 | TE4-PPM-01</span>
+      <h3>Worksheet 11: Computational Thinking</h3>
+    </div>
+    <div class="slide-body">
+      <div class="glossary-box">
+        <div class="glossary-title">Module 3: Lesson 11 Glossary Terms</div>
+        <div class="glossary-items">
+          <div class="glossary-item"><strong>21. Intellectual Property (IP):</strong> Creations of the mind (e.g., code, designs, artwork) protected by law under copyright or patents.</div>
+          <div class="glossary-item"><strong>22. Data Ownership:</strong> The legal and ethical rights to control, modify, access, and share specific sets of data.</div>
+        </div>
+      </div>
+      <ul>
+        <li><strong>The Four Pillars:</strong>
+          <ul>
+            <li><strong>1. Decomposition</strong> → <strong>B:</strong> Breaking complex problems into smaller parts.</li>
+            <li><strong>2. Pattern Recognition</strong> → <strong>C:</strong> Identifying trends across problems.</li>
+            <li><strong>3. Abstraction</strong> → <strong>D:</strong> Filtering out unnecessary details.</li>
+            <li><strong>4. Algorithms</strong> → <strong>A:</strong> Step-by-step rules to solve a problem.</li>
+          </ul>
+        </li>
+        <li><strong>Debug the Teacher Task:</strong>
+          <ul>
+            <li><em>Error:</em> Putting the sandwich in mouth occurs before adding fillings!</li>
+            <li><em>Correction:</em> Step 1 → Step 2 → Add filling (Step 4) → Eat sandwich (Step 3).</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Slide 12 -->
+  <div class="slide-card">
+    <div class="slide-header">
+      <span class="outcomes-tag">TE4-DIG-02 | TE4-DES-01</span>
+      <h3>Worksheet 12: Algorithms and Flowcharts</h3>
+    </div>
+    <div class="slide-body">
+      <div class="glossary-box">
+        <div class="glossary-title">Lesson 12 Glossary Terms</div>
+        <div class="glossary-items">
+          <div class="glossary-item"><strong>23. Artificial Intelligence (AI):</strong> Systems or machines that mimic human intelligence to perform tasks and improve based on data.</div>
+          <div class="glossary-item"><strong>24. AI Ethics:</strong> Moral principles guiding the fair, unbiased, safe, and transparent development and deployment of AI systems.</div>
+        </div>
+      </div>
+      <ul>
+        <li><strong>Flowchart Symbol Mapping:</strong>
+          <ul>
+            <li><strong>Oval (Terminator):</strong> Start / End of program.</li>
+            <li><strong>Rectangle (Process):</strong> Variable assignment or math calculation.</li>
+            <li><strong>Diamond (Decision):</strong> Conditional check (Yes/No or True/False).</li>
+            <li><strong>Parallelogram (Input/Output):</strong> Sensor input or screen display.</li>
+          </ul>
+        </li>
+        <li><strong>Step Counter Logic:</strong>
+          <div class="code-block">[Oval: Start] ➔ [Parallelogram: Input Shake Gesture] ➔ 
+[Rectangle: Step = Step + 1] ➔ [Parallelogram: Display Step] ➔ [Oval: End]</div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Slide 13 -->
+  <div class="slide-card">
+    <div class="slide-header">
+      <span class="outcomes-tag">TE4-DIG-02 | TE4-PPM-01</span>
+      <h3>Worksheet 13: Variables and Data Types</h3>
+    </div>
+    <div class="slide-body">
+      <div class="glossary-box">
+        <div class="glossary-title">Lesson 13 Glossary Terms</div>
+        <div class="glossary-items">
+          <div class="glossary-item"><strong>25. Digital Sustainability:</strong> Designing and using digital systems in ways that reduce e-waste and lower energy consumption.</div>
+          <div class="glossary-item"><strong>26. E-Waste:</strong> Electronic waste consisting of discarded electronic devices or equipment.</div>
+        </div>
+      </div>
+      <ul>
+        <li><strong>Data Type Matrix:</strong>
+          <table class="data-table">
+            <tr><th>Variable & Value</th><th>Data Type</th><th>Memory Purpose</th></tr>
+            <tr><td><code>playerName = "Alex"</code></td><td>String</td><td>Text characters</td></tr>
+            <tr><td><code>playerScore = 150</code></td><td>Integer</td><td>Whole numbers</td></tr>
+            <tr><td><code>isGameOver = False</code></td><td>Boolean</td><td>True/False state</td></tr>
+            <tr><td><code>temperature = 23.5</code></td><td>Float</td><td>Decimal values</td></tr>
+          </table>
+        </li>
+        <li><strong>MakeCode Script Snippet:</strong>
+          <div class="code-block">on start:
+    set count to 0
+on button A pressed:
+    change count by 1</div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Slide 14 -->
+  <div class="slide-card">
+    <div class="slide-header">
+      <span class="outcomes-tag">TE4-DIG-02 | TE4-PPM-01</span>
+      <h3>Worksheet 14: Branching (IF/ELSE Logic)</h3>
+    </div>
+    <div class="slide-body">
+      <div class="glossary-box">
+        <div class="glossary-title">Lesson 14 Glossary Terms</div>
+        <div class="glossary-items">
+          <div class="glossary-item"><strong>27. Design Factors:</strong> Key considerations (e.g., cost, aesthetics, ergonomics, environment) that influence the creation of a product.</div>
+          <div class="glossary-item"><strong>28. Digital Solution:</strong> An application, system, or digital product created to solve a specific user problem.</div>
+        </div>
+      </div>
+      <ul>
+        <li><strong>Logic Tree Evaluation:</strong>
+          <ul>
+            <li><code>if score >= 50: display "WIN" else: display "TRY AGAIN"</code></li>
+            <li>If <code>score = 65</code> → Output: <strong>"WIN"</strong></li>
+            <li>If <code>score = 42</code> → Output: <strong>"TRY AGAIN"</strong></li>
+            <li>If <code>score = 50</code> → Output: <strong>"WIN"</strong></li>
+          </ul>
+        </li>
+        <li><strong>Digital Dice Pseudocode:</strong>
+          <div class="code-block">roll = pick random number from 1 to 6
+IF roll == 6 THEN
+    show string "SIX!"
+ELSE
+    show string "ROLL AGAIN"
+END IF</div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Slide 15 -->
+  <div class="slide-card">
+    <div class="slide-header">
+      <span class="outcomes-tag">TE4-DIG-02 | TE4-PPM-01</span>
+      <h3>Worksheet 15: Iteration (Loops) & Testing</h3>
+    </div>
+    <div class="slide-body">
+      <div class="glossary-box">
+        <div class="glossary-title">Lesson 15 Glossary Terms</div>
+        <div class="glossary-items">
+          <div class="glossary-item"><strong>29. Graphics Application:</strong> Software used to create, edit, manipulate, and export visual designs, images, and diagrams.</div>
+          <div class="glossary-item"><strong>30. Documentation:</strong> Written and visual records detailing how a digital solution was planned, built, tested, and used.</div>
+        </div>
+      </div>
+      <ul>
+        <li><strong>Loop Types:</strong>
+          <ul>
+            <li><strong>FOR Loop:</strong> Count-controlled loop that repeats code a predetermined number of times.</li>
+            <li><strong>WHILE Loop:</strong> Condition-controlled loop that repeats as long as a condition stays <code>True</code>.</li>
+          </ul>
+        </li>
+        <li><strong>Loop Output Tracing:</strong>
+          <div class="code-block">repeat 4 times:
+    show icon [ Heart ]
+    pause 100ms</div>
+          <em>Total icon displays = <strong>4</strong></em>
+        </li>
+        <li><strong>Peer Testing:</strong> Have a classmate verify speed and visual loop updates.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Slide 16 -->
+  <div class="slide-card">
+    <div class="slide-header">
+      <span class="outcomes-tag">TE4-DES-01 | TE4-PPM-01</span>
+      <h3>Worksheet 16: Project Introduction & Design Brief</h3>
+    </div>
+    <div class="slide-body">
+      <div class="glossary-box">
+        <div class="glossary-title">Module 4: Lesson 16 Glossary Terms</div>
+        <div class="glossary-items">
+          <div class="glossary-item"><strong>31. Computational Thinking:</strong> A problem-solving method involving breaking down problems into steps a computer can carry out.</div>
+          <div class="glossary-item"><strong>32. Decomposition:</strong> Breaking down a complex problem or system into smaller, more manageable parts.</div>
+        </div>
+      </div>
+      <ul>
+        <li><strong>Design Brief Blueprint:</strong>
+          <ul>
+            <li><strong>Project Title:</strong> Arcade Defender</li>
+            <li><strong>Target Audience:</strong> Middle school students & retro gamers</li>
+            <li><strong>Platform:</strong> [x] Micro:bit Hardware &nbsp;&nbsp; [x] MakeCode Arcade</li>
+          </ul>
+        </li>
+        <li><strong>Success Criteria & Constraints:</strong>
+          <ul>
+            <li>1. Smooth player movement and responsive collision handling.</li>
+            <li>2. Dynamic scoring and lives tracking system.</li>
+            <li>3. Well-commented block code and clear visual user interface.</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Slide 17 -->
+  <div class="slide-card">
+    <div class="slide-header">
+      <span class="outcomes-tag">TE4-DES-01 | TE4-DIG-02</span>
+      <h3>Worksheet 17: Planning Algorithms & Logic</h3>
+    </div>
+    <div class="slide-body">
+      <div class="glossary-box">
+        <div class="glossary-title">Lesson 17 Glossary Terms</div>
+        <div class="glossary-items">
+          <div class="glossary-item"><strong>33. Pattern Recognition:</strong> Identifying similarities, trends, or repeating structures within data or problems.</div>
+          <div class="glossary-item"><strong>34. Abstraction:</strong> Removing unnecessary details from a problem to focus only on the essential features.</div>
+        </div>
+      </div>
+      <ul>
+        <li><strong>Main Game Logic Pseudocode:</strong>
+          <div class="code-block">START
+Initialize: score = 0, lives = 3
+ON start:
+    Spawn player sprite at screen center
+    Start continuous obstacle spawn timer
+ON sprite overlap (Player, Obstacle):
+    Destroy obstacle sprite
+    Change score by +1
+    Play sound "Coin"
+END</div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Slide 18 -->
+  <div class="slide-card">
+    <div class="slide-header">
+      <span class="outcomes-tag">TE4-DES-01 | TE4-PPM-01</span>
+      <h3>Worksheet 18: UI/UX Design Principles</h3>
+    </div>
+    <div class="slide-body">
+      <div class="glossary-box">
+        <div class="glossary-title">Lesson 18 Glossary Terms</div>
+        <div class="glossary-items">
+          <div class="glossary-item"><strong>35. Systems Thinking:</strong> Understanding how individual components interact with each other within a larger system.</div>
+          <div class="glossary-item"><strong>36. Input-Process-Output (IPO):</strong> The fundamental model describing how a system receives data, processes it, and produces a result.</div>
+        </div>
+      </div>
+      <ul>
+        <li><strong>Arcade UI Wireframe Design:</strong>
+          <ul>
+            <li><strong>HUD Layout:</strong> Score on top-left, Lives (Hearts) on top-right.</li>
+            <li><strong>Playfield Area:</strong> Clear visual contrast between background tilemap and moving sprites.</li>
+          </ul>
+        </li>
+        <li><strong>UX Usability Principles:</strong>
+          <ul>
+            <li>Players should intuitively understand controls using standard D-pad movement and action buttons without needing manual instruction.</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Slide 19 -->
+  <div class="slide-card">
+    <div class="slide-header">
+      <span class="outcomes-tag">TE4-DES-01 | TE4-DIG-02</span>
+      <h3>Worksheet 19: Prototyping Core Mechanics</h3>
+    </div>
+    <div class="slide-body">
+      <div class="glossary-box">
+        <div class="glossary-title">Lesson 19 Glossary Terms</div>
+        <div class="glossary-items">
+          <div class="glossary-item"><strong>37. User Interface (UI):</strong> The visual layout, screens, buttons, and icons that a user interacts with on a device.</div>
+          <div class="glossary-item"><strong>38. User Experience (UX):</strong> The overall feeling, ease of use, and satisfaction a user has when interacting with a digital product.</div>
+        </div>
+      </div>
+      <ul>
+        <li><strong>Core Mechanic Checklist:</strong>
+          <table class="data-table">
+            <tr><th>Mechanic Step</th><th>MakeCode Block / Function</th><th>Status</th></tr>
+            <tr><td>Player Movement</td><td><code>move sprite with buttons</code></td><td>Working</td></tr>
+            <tr><td>Collision Check</td><td><code>on overlap sprite of kind...</code></td><td>Working</td></tr>
+            <tr><td>Score Tracking</td><td><code>change score by 1</code></td><td>Working</td></tr>
+          </table>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Slide 20 -->
+  <div class="slide-card">
+    <div class="slide-header">
+      <span class="outcomes-tag">TE4-PPM-01 | TE4-DES-01</span>
+      <h3>Worksheet 20: Testing Prototype Features</h3>
+    </div>
+    <div class="slide-body">
+      <div class="glossary-box">
+        <div class="glossary-title">Lesson 20 Glossary Terms</div>
+        <div class="glossary-items">
+          <div class="glossary-item"><strong>39. Wireframe:</strong> A simple visual layout or blueprint showing the structural arrangement of elements on a UI.</div>
+          <div class="glossary-item"><strong>40. Accessibility:</strong> Designing digital systems so they can be easily used by people with a wide range of abilities.</div>
+        </div>
+      </div>
+      <ul>
+        <li><strong>Peer Feedback Log Matrix:</strong>
+          <table class="data-table">
+            <tr><th>Tester</th><th>What worked well?</th><th>What was buggy?</th></tr>
+            <tr><td>Tester 1</td><td>Smooth movement & responsive controls.</td><td>Player sprite can move off-screen.</td></tr>
+            <tr><td>Tester 2</td><td>Fun sound effects and retro style.</td><td>Enemies spawn too quickly at start.</td></tr>
+          </table>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Slide 21 -->
+  <div class="slide-card">
+    <div class="slide-header">
+      <span class="outcomes-tag">TE4-DIG-02 | TE4-DES-01</span>
+      <h3>Worksheet 21: Build Core Functionality</h3>
+    </div>
+    <div class="slide-body">
+      <div class="glossary-box">
+        <div class="glossary-title">Module 5: Lesson 21 Glossary Terms</div>
+        <div class="glossary-items">
+          <div class="glossary-item"><strong>41. Algorithm:</strong> A step-by-step set of instructions or rules followed to solve a problem or complete a task.</div>
+          <div class="glossary-item"><strong>42. Pseudocode:</strong> A plain-language representation of computer code used to plan and design algorithms.</div>
+        </div>
+      </div>
+      <ul>
+        <li><strong>System Hardware/Software I/O Map:</strong>
+          <table class="data-table">
+            <tr><th>Inputs (Sensors, Keys)</th><th>Outputs (Display, Sound)</th></tr>
+            <tr><td>1. Button A / D-Pad movement</td><td>1. Arcade Display / 5x5 LED matrix</td></tr>
+            <tr><td>2. Accelerometer Shake trigger</td><td>2. Onboard Speaker Audio effects</td></tr>
+          </table>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Slide 22 -->
+  <div class="slide-card">
+    <div class="slide-header">
+      <span class="outcomes-tag">TE4-DIG-02 | TE4-PPM-01</span>
+      <h3>Worksheet 22: Integrate Control Structures</h3>
+    </div>
+    <div class="slide-body">
+      <div class="glossary-box">
+        <div class="glossary-title">Lesson 22 Glossary Terms</div>
+        <div class="glossary-items">
+          <div class="glossary-item"><strong>43. Flowchart:</strong> A visual diagram using standardized shapes and arrows to map out the logic of an algorithm.</div>
+          <div class="glossary-item"><strong>44. Algorithm Tracing:</strong> The manual step-by-step execution of an algorithm to track variable values and logic flow.</div>
+        </div>
+      </div>
+      <ul>
+        <li><strong>Program Main Control Loop:</strong>
+          <div class="code-block">on game update every 1000 ms:
+    create sprite [Enemy] of kind [Enemy]
+    set [Enemy] position x to pick random (0 to 160)
+
+on overlap sprite [Player] with [Enemy]:
+    IF [Player] status == "Shielded" THEN
+        destroy [Enemy]
+        change score by 10
+    ELSE
+        change lives by -1
+        destroy [Enemy]
+    END IF</div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Slide 23 -->
+  <div class="slide-card">
+    <div class="slide-header">
+      <span class="outcomes-tag">TE4-DIG-02 | TE4-PPM-01</span>
+      <h3>Worksheet 23: Testing and Debugging</h3>
+    </div>
+    <div class="slide-body">
+      <div class="glossary-box">
+        <div class="glossary-title">Lesson 23 Glossary Terms</div>
+        <div class="glossary-items">
+          <div class="glossary-item"><strong>45. Sequence:</strong> The execution of algorithm instructions in a precise, step-by-step order from top to bottom.</div>
+          <div class="glossary-item"><strong>46. Branching (Selection):</strong> A decision-making structure in programming (e.g., IF/ELSE) that executes code based on conditions.</div>
+        </div>
+      </div>
+      <ul>
+        <li><strong>Bug Tracking Sheet:</strong>
+          <table class="data-table">
+            <tr><th>Bug #</th><th>Description</th><th>Fix / Solution</th><th>Status</th></tr>
+            <tr><td>1</td><td>Sprite moves off screen bounds</td><td>Set 'stay in screen' flag to TRUE</td><td>Resolved</td></tr>
+            <tr><td>2</td><td>Score increases infinitely on contact</td><td>Add 'destroy sprite' on hit</td><td>Resolved</td></tr>
+            <tr><td>3</td><td>Audio freezes on Game Over</td><td>Reset audio channels on game end</td><td>Resolved</td></tr>
+          </table>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Slide 24 -->
+  <div class="slide-card">
+    <div class="slide-header">
+      <span class="outcomes-tag">TE4-PPM-01 | TE4-DES-01</span>
+      <h3>Worksheet 24: Refinement Through Feedback</h3>
+    </div>
+    <div class="slide-body">
+      <div class="glossary-box">
+        <div class="glossary-title">Lesson 24 Glossary Terms</div>
+        <div class="glossary-items">
+          <div class="glossary-item"><strong>47. Iteration (Repetition):</strong> Repeating a set of instructions multiple times using loops (e.g., FOR, WHILE) until a condition is met.</div>
+          <div class="glossary-item"><strong>48. Control Structure:</strong> Logic blocks (sequence, selection, iteration) that dictate the execution flow of a program.</div>
+        </div>
+      </div>
+      <ul>
+        <li><strong>Iterative Refinement Action Plan:</strong>
+          <ul>
+            <li><strong>Refinement 1:</strong> Added <code>stay in screen = true</code> flag to prevent players losing their character.</li>
+            <li><strong>Refinement 2:</strong> Increased spawn delay timer from 500ms to 1200ms for a smoother difficulty curve.</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Slide 25 -->
+  <div class="slide-card">
+    <div class="slide-header">
+      <span class="outcomes-tag">TE4-DES-01 | TE4-PPM-01</span>
+      <h3>Worksheet 25: Presentation Prep</h3>
+    </div>
+    <div class="slide-body">
+      <div class="glossary-box">
+        <div class="glossary-title">Lesson 25 Glossary Terms</div>
+        <div class="glossary-items">
+          <div class="glossary-item"><strong>49. Variable:</strong> A named storage location in memory used to hold data that can change during program execution.</div>
+          <div class="glossary-item"><strong>50. Data Type:</strong> The classification of data (e.g., Integer, String, Boolean) telling the program how to use the value.</div>
+        </div>
+      </div>
+      <ul>
+        <li><strong>Project Showcase Pitch Outline:</strong>
+          <ul>
+            <li><strong>Slide 1: Title</strong> — Project Name & Creator Team.</li>
+            <li><strong>Slide 2: Purpose</strong> — What problem does your project solve or what makes it fun?</li>
+            <li><strong>Slide 3: Code Highlight</strong> — Which code block are you most proud of and why?</li>
+            <li><strong>Slide 4: Live Demo</strong> — Key controls to demonstrate to the audience.</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Slide 26 -->
+  <div class="slide-card">
+    <div class="slide-header">
+      <span class="outcomes-tag">TE4-PPM-01 | TE4-DIG-02</span>
+      <h3>Worksheet 26: Project Documentation</h3>
+    </div>
+    <div class="slide-body">
+      <div class="glossary-box">
+        <div class="glossary-title">Module 6: Lesson 26 Glossary Terms</div>
+        <div class="glossary-items">
+          <div class="glossary-item"><strong>51. Integer:</strong> A fundamental data type representing whole numbers without decimals (e.g., -5, 0, 42).</div>
+          <div class="glossary-item"><strong>52. String:</strong> A data type representing a sequence of text characters (e.g., "Hello World").</div>
+        </div>
+      </div>
+      <ul>
+        <li><strong>Portfolio Submission Checklist:</strong>
+          <ul>
+            <li>[x] Project Design Brief completed</li>
+            <li>[x] Complete Flowchart diagram included</li>
+            <li>[x] Code screenshot / shared project link attached</li>
+            <li>[x] User Testing & Bug Log completed</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Slide 27 -->
+  <div class="slide-card">
+    <div class="slide-header">
+      <span class="outcomes-tag">TE4-DES-01 | TE4-PPM-01</span>
+      <h3>Worksheet 27: Project Presentations</h3>
+    </div>
+    <div class="slide-body">
+      <div class="glossary-box">
+        <div class="glossary-title">Lesson 27 Glossary Terms</div>
+        <div class="glossary-items">
+          <div class="glossary-item"><strong>53. Boolean:</strong> A data type that can hold only one of two logical values: True or False.</div>
+          <div class="glossary-item"><strong>54. Function:</strong> A reusable block of code designed to perform a specific task when called.</div>
+        </div>
+      </div>
+      <ul>
+        <li><strong>Peer Evaluation Rubric Criteria:</strong>
+          <table class="data-table">
+            <tr><th>Criteria</th><th>Score (1-5)</th><th>Feedback Focus</th></tr>
+            <tr><td>User Experience & Interface</td><td>1 - 5</td><td>Visual layout clarity & controls</td></tr>
+            <tr><td>Code Logic & Complexity</td><td>1 - 5</td><td>Use of loops, variables, and conditionals</td></tr>
+            <tr><td>Presentation Clarity</td><td>1 - 5</td><td>Communication & live demo</td></tr>
+          </table>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Slide 28 -->
+  <div class="slide-card">
+    <div class="slide-header">
+      <span class="outcomes-tag">TE4-DIG-02 | TE4-PPM-01</span>
+      <h3>Worksheet 28: Data-Driven Coding</h3>
+    </div>
+    <div class="slide-body">
+      <div class="glossary-box">
+        <div class="glossary-title">Lesson 28 Glossary Terms</div>
+        <div class="glossary-items">
+          <div class="glossary-item"><strong>55. Parameter / Argument:</strong> Values passed into a function to customize its behavior or processing output.</div>
+          <div class="glossary-item"><strong>56. Syntax:</strong> The set of rules defining the combination of symbols and words used in a programming language.</div>
+        </div>
+      </div>
+      <ul>
+        <li><strong>Serial Communication & Telemetry:</strong>
+          <ul>
+            <li>Micro:bit sensors convert analog values (e.g., light, temp) to digital data.</li>
+            <li>Data streams over USB serial connection directly to a computer dashboard.</li>
+            <li>Programs render real-time line graphs to visualize sensor changes over time.</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Slide 29 -->
+  <div class="slide-card">
+    <div class="slide-header">
+      <span class="outcomes-tag">TE4-DIG-01 | TE4-SAF-01</span>
+      <h3>Worksheet 29: Communication Systems</h3>
+    </div>
+    <div class="slide-body">
+      <div class="glossary-box">
+        <div class="glossary-title">Lesson 29 Glossary Terms</div>
+        <div class="glossary-items">
+          <div class="glossary-item"><strong>57. Debugging:</strong> The systematic process of finding, diagnosing, and fixing errors or bugs in computer software.</div>
+          <div class="glossary-item"><strong>58. Logic Error:</strong> A mistake in a program's source code that causes it to operate incorrectly but not crash.</div>
+        </div>
+      </div>
+      <ul>
+        <li><strong>Micro:bit Radio Protocol:</strong>
+          <div class="code-block">on start:
+    radio set group [ 12 ]
+on button A pressed:
+    radio send string "HELLO"</div>
+        </li>
+        <li><strong>Question:</strong> What happens if two Micro:bits have different group IDs?
+          <ul>
+            <li><em>Answer:</em> They ignore each other's signals, preventing cross-talk and unauthorized messages.</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Slide 30 -->
+  <div class="slide-card">
+    <div class="slide-header">
+      <span class="outcomes-tag">TE4-DIG-02 | TE4-DES-01</span>
+      <h3>Worksheet 30: Game Design with MakeCode Arcade</h3>
+    </div>
+    <div class="slide-body">
+      <div class="glossary-box">
+        <div class="glossary-title">Lesson 30 Glossary Terms</div>
+        <div class="glossary-items">
+          <div class="glossary-item"><strong>59. Testing:</strong> The process of executing a program to verify that it meets requirements and produces correct outputs.</div>
+          <div class="glossary-item"><strong>60. Test Cases:</strong> Predefined inputs, execution conditions, and expected results designed to test program accuracy.</div>
+        </div>
+      </div>
+      <ul>
+        <li><strong>Tilemap Wall Collisions:</strong>
+          <ul>
+            <li>Marking tiles as <strong>WALLS (Solid)</strong> enables physics collision logic.</li>
+            <li>This stops player sprites from falling through floors or walking through boundaries.</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Slide 31 -->
+  <div class="slide-card">
+    <div class="slide-header">
+      <span class="outcomes-tag">TE4-DIG-02 | TE4-SAF-01</span>
+      <h3>Worksheet 31: AI and Automation</h3>
+    </div>
+    <div class="slide-body">
+      <div class="glossary-box">
+        <div class="glossary-title">Module 7: Lesson 31 Glossary Terms</div>
+        <div class="glossary-items">
+          <div class="glossary-item"><strong>61. Project Management:</strong> Planning, organizing, and managing resources to complete a specific project successfully.</div>
+          <div class="glossary-item"><strong>62. Collaborative Tools:</strong> Digital platforms and software that enable multiple individuals to work together on shared projects.</div>
+        </div>
+      </div>
+      <ul>
+        <li><strong>Reaction Timer Automation Logic:</strong>
+          <div class="code-block">1. Pause random time (1 to 5 seconds)
+2. Display target signal & start internal timer
+3. ON user button press: 
+   Calculate (End Time - Start Time) = Reaction Speed
+4. Output reaction time in milliseconds</div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Slide 32 -->
+  <div class="slide-card">
+    <div class="slide-header">
+      <span class="outcomes-tag">TE4-SDP-01 | TE4-DIG-01</span>
+      <h3>Worksheet 32: Future Technologies</h3>
+    </div>
+    <div class="slide-body">
+      <div class="glossary-box">
+        <div class="glossary-title">Lesson 32 Glossary Terms</div>
+        <div class="glossary-items">
+          <div class="glossary-item"><strong>63. Optimization:</strong> Refining and modifying a system or algorithm to make it run faster, use less memory, or work better.</div>
+          <div class="glossary-item"><strong>64. Evaluation:</strong> Assessing a final solution against set criteria to determine its success, quality, and effectiveness.</div>
+        </div>
+      </div>
+      <ul>
+        <li><strong>Smart City & Agriculture Sensors Impact:</strong>
+          <ul>
+            <li>Automated environmental sensor networks measure soil moisture across farms.</li>
+            <li>Reduces water waste by activating irrigation systems only when necessary.</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Slide 33 -->
+  <div class="slide-card">
+    <div class="slide-header">
+      <span class="outcomes-tag">TE4-DIG-01 | TE4-DIG-02 | TE4-DES-01</span>
+      <h3>Worksheet 33: Course Wrap-Up & Reflection</h3>
+    </div>
+    <div class="slide-body">
+      <div class="glossary-box">
+        <div class="glossary-title">Lesson 33 Glossary Terms</div>
+        <div class="glossary-items">
+          <div class="glossary-item"><strong>65. Peer Review:</strong> The evaluation of work by others working in the same field or classroom to offer constructive feedback.</div>
+          <div class="glossary-item"><strong>66. Iteration Cycle:</strong> The process of continually prototyping, testing, evaluating, and refining a product to make improvements.</div>
+        </div>
+      </div>
+      <ul>
+        <li><strong>Final Course Retrospective:</strong>
+          <ul>
+            <li>Mastered hardware integration, logic debugging, and translating sensor inputs into interactive programs.</li>
+            <li>Constructed digital solutions using systematic planning, iterative prototyping, and user testing feedback.</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)">Previous</button>
+  <select id="slideSelect" onchange="jumpToSlide(this.value)"></select>
+  <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">Next</button>
+</footer>
+
+<script>
+  let currentSlide = 0;
+  const slides = document.querySelectorAll('.slide-card');
+  const counter = document.getElementById('counter');
+  const select = document.getElementById('slideSelect');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+
+  slides.forEach((slide, index) => {
+    const title = slide.querySelector('h3').innerText;
+    const option = document.createElement('option');
+    option.value = index;
+    option.text = title;
+    select.appendChild(option);
+  });
+
+  function updateSlideDisplay() {
+    slides.forEach((slide, index) => {
+      slide.classList.toggle('active', index === currentSlide);
+    });
+    counter.innerText = `Slide ${currentSlide + 1} of ${slides.length}`;
+    select.value = currentSlide;
+    
+    prevBtn.disabled = currentSlide === 0;
+    nextBtn.disabled = currentSlide === slides.length - 1;
+  }
+
+  function changeSlide(direction) {
+    currentSlide += direction;
+    if (currentSlide < 0) currentSlide = 0;
+    if (currentSlide >= slides.length) currentSlide = slides.length - 1;
+    updateSlideDisplay();
+  }
+
+  function jumpToSlide(index) {
+    currentSlide = parseInt(index);
+    updateSlideDisplay();
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft') changeSlide(-1);
+    if (e.key === 'ArrowRight') changeSlide(1);
+  });
+
+  updateSlideDisplay();
+</script>
+
+</body>
+</html>
